@@ -29,12 +29,14 @@ public class Main {
 	private static final String DUMMY_CLASS_ONE_NAME = "dummyclasses.DummyClassOne";
 	private static final String DUMMY_CLASS_TWO_NAME = "dummyclasses.DummyClassTwo";
 	private static final String DUMMY_CLASSES_ROOT = "../dummy-classes/bin/";
+	private static ClassLoader classLoader;
+	
 	public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		createAndShowGUI();
 	}
 	
 	private static void createAndShowGUI() {
-		ClassLoader classLoader = new CustomClassLoader(DUMMY_CLASSES_ROOT);
+		
 		
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		JFrame mainFrame = new JFrame(APP_NAME);
@@ -89,9 +91,12 @@ public class Main {
 			public void actionPerformed(ActionEvent e) {
 				String className = classNameInputField.getText();
 				try {
+					classLoader = new CustomClassLoader(DUMMY_CLASSES_ROOT);
 					fieldsTableData.setDataClass(classLoader.loadClass(className));
+					classLoader = null;
+					
 					fieldsTableData.createObject();
-					infoArea.append("Class \"" + className + "\" loaded successfully!");
+					infoArea.append("\nClass \"" + className + "\" loaded successfully!");
 					String classNameLabelValue = fieldsTableData.getClassName();
 					List<String> superClasses = fieldsTableData.getSuperclasses();
 					if (!superClasses.isEmpty()) {
@@ -131,6 +136,20 @@ public class Main {
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.PAGE_AXIS));
 		
+		JButton unloadClassButton = new JButton("Unload class");
+		unloadClassButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fieldsTableData.unloadClass();
+				classNameLabel.setText(fieldsTableData.getClassName());
+				classLoader = null;
+				infoArea.append("\nUnloaded the class");
+			}
+		});
+		
+		
+		
 		fieldSetterPanel.add(fieldNameInputLabel);
 		fieldSetterPanel.add(fieldNameInput);
 		fieldSetterPanel.add(fieldValueInputLabel);
@@ -139,6 +158,7 @@ public class Main {
 		
 		bottomPanel.add(fieldSetterPanel);
 		bottomPanel.add(textAreaScrollPane);
+		bottomPanel.add(unloadClassButton);
 		
 		loadClassPane.add(classNameInputFieldLabel);
 		loadClassPane.add(classNameInputField);

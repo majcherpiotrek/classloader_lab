@@ -208,4 +208,11 @@ public class FieldsTableData extends AbstractTableModel{
 		}
 		return result;
 	}
+	
+	public void unloadClass() {
+		dataClass = null;
+		relatedClassObject = null;
+		fieldsList = new ArrayList<>();
+		fireTableDataChanged();
+	}
 }
