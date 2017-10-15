@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 public class CustomClassLoader extends ClassLoader {
-	
-	protected static final String classesRoot = "../dummy-classes/bin/";
+
 	protected static final String classesFilesSuffix = ".class";
 	private Hashtable<String, Class<?>> classesCache;
+	private String classesRoot;
 	
-	public CustomClassLoader() {
+	public CustomClassLoader(String classesRoot) {
+		this.classesRoot = classesRoot;
 		this.classesCache = new Hashtable<>();
 	}
 	

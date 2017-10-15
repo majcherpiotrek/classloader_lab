@@ -16,7 +16,7 @@ public class CustomClassLoaderTest {
 		String className = "dummyclasses.DummyClassOne";
 		String expectedPath = "dummyclasses/DummyClassOne";
 		
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		
 		assertEquals(expectedPath, customClassLoader.dotsToSlashes(className));
 	}
@@ -26,7 +26,7 @@ public class CustomClassLoaderTest {
 		String className = "dummyclasses.DummyClassOne";
 		String expectedPath = "../dummy-classes/bin/dummyclasses/DummyClassOne.class";
 		
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		
 		assertEquals(expectedPath, customClassLoader.createPathToClassFromClassName(className));
 	}
@@ -34,7 +34,7 @@ public class CustomClassLoaderTest {
 	@Test
 	public void getClassBytesFromFileTestDummyClassOne() throws IOException {
 		String className = "dummyclasses.DummyClassOne";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		byte[] result;
 		
 		result = customClassLoader.getClassBytesFromFile(className);
@@ -44,7 +44,7 @@ public class CustomClassLoaderTest {
 	@Test
 	public void getClassBytesFromFileTestDummyClassTwo() throws IOException {
 		String className = "dummyclasses.DummyClassTwo";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		byte[] result;
 		
 		result = customClassLoader.getClassBytesFromFile(className);
@@ -54,7 +54,7 @@ public class CustomClassLoaderTest {
 	@Test(expected = FileNotFoundException.class)
 	public void getClassBytesFromFileTestNoSuchFile() throws IOException {
 		String className = "dummyclasses.DummyClassThree";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		byte[] result;
 		
 		result = customClassLoader.getClassBytesFromFile(className);
@@ -63,7 +63,7 @@ public class CustomClassLoaderTest {
 	@Test
 	public void loadClassTestDummyClassOne() throws ClassNotFoundException {
 		String className = "dummyclasses.DummyClassOne";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		Class<?> loadedClass = null;
 		loadedClass = customClassLoader.loadClass(className);
 		assertNotNull(loadedClass);
@@ -72,7 +72,7 @@ public class CustomClassLoaderTest {
 	@Test
 	public void loadClassTestDummyClassTwo() throws ClassNotFoundException {
 		String className = "dummyclasses.DummyClassTwo";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		Class<?> loadedClass = null;
 		loadedClass = customClassLoader.loadClass(className);
 		assertNotNull(loadedClass);
@@ -81,7 +81,7 @@ public class CustomClassLoaderTest {
 	@Test(expected = ClassNotFoundException.class)
 	public void loadClassTestDummyNoSuchClass() throws ClassNotFoundException {
 		String className = "dummyclasses.DummyClassThree";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		Class<?> loadedClass = null;
 		loadedClass = customClassLoader.loadClass(className);
 	}
@@ -89,7 +89,7 @@ public class CustomClassLoaderTest {
 	@Test
 	public void loadClassTestDummyClassOneFromCache() throws ClassNotFoundException {
 		String className = "dummyclasses.DummyClassOne";
-		customClassLoader = new CustomClassLoader();
+		customClassLoader = new CustomClassLoader("../dummy-classes/bin/");
 		Class<?> loadedClass = null;
 		customClassLoader.loadClass(className);
 		loadedClass = customClassLoader.loadClass(className);
