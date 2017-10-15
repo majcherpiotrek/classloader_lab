@@ -92,6 +92,20 @@ public class Main {
 					fieldsTableData.setDataClass(classLoader.loadClass(className));
 					fieldsTableData.createObject();
 					infoArea.append("Class \"" + className + "\" loaded successfully!");
+					String classNameLabelValue = fieldsTableData.getClassName();
+					List<String> superClasses = fieldsTableData.getSuperclasses();
+					if (!superClasses.isEmpty()) {
+						classNameLabelValue += " extends ";
+						for(int i=0; i<superClasses.size(); i++) {
+							classNameLabelValue += superClasses.get(i);
+							if (i < superClasses.size() - 1) {
+								classNameLabelValue += " extends ";
+							}
+						}
+					}
+					classNameLabel.setText(classNameLabelValue);
+					centerPanel.revalidate();
+					centerPanel.repaint();
 				} catch (Exception e1) {
 					infoArea.append("\nCannot load class \"" + className + "\". Exception: " + e1.getMessage());
 				}

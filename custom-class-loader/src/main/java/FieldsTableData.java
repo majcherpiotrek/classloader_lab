@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -94,6 +95,27 @@ public class FieldsTableData extends AbstractTableModel{
 	public FieldsTableData() {
 		super();
 		this.fieldsList = new ArrayList<>();
+	}
+	
+	public String getClassName() {
+		String name = "no class loaded";
+		if (dataClass != null) {
+			name = dataClass.getName();
+		}
+		return name;
+	}
+	
+	public List<String> getSuperclasses() {
+		List<String> superclassesList = new LinkedList<>();
+		if (dataClass != null) {
+			Class<?> currentClass = dataClass;
+			while (currentClass.getSuperclass() != null) {
+				Class<?> superclass = currentClass.getSuperclass();
+				superclassesList.add(superclass.getSimpleName());
+				currentClass = superclass;
+			}
+		}
+		return superclassesList;
 	}
 	
 	@Override
